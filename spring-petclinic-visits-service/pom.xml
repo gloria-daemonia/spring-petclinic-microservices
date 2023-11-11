@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>org.springframework.samples.petclinic.visits</groupId>
-	<artifactId>spring-petclinic-visits-service</artifactId>
-	<packaging>jar</packaging>
-	<description>Spring PetClinic Visits Service</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.springframework.samples</groupId>
@@ -14,10 +8,31 @@
         <version>3.0.9</version>
     </parent>
 
+	<groupId>org.springframework.samples.petclinic.visits</groupId>
+	<artifactId>spring-petclinic-visits-service</artifactId>
+	<packaging>jar</packaging>
+    <name>Pet Clinic: Visits Service</name>
+	<description>Spring PetClinic Visits Service</description>
+
     <properties>
         <docker.exposed.port>8081</docker.exposed.port>
         <docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>buildDocker</id>
+                <build>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.spotify</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <version>${docker.plugin.version}</version>
+                        </plugin>
+                    </plugins>
+                </build>
+        </profile>
+    </profiles>
 
 	<dependencies>
         <!-- Spring Boot -->
@@ -106,19 +121,4 @@
             <scope>test</scope>
         </dependency>
 	</dependencies>
-
-    <profiles>
-        <profile>
-            <id>buildDocker</id>
-                <build>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.spotify</groupId>
-                            <artifactId>docker-maven-plugin</artifactId>
-                            <version>${docker.plugin.version}</version>
-                        </plugin>
-                    </plugins>
-                </build>
-        </profile>
-    </profiles>
 </project>

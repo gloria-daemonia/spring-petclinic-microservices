@@ -1,0 +1,28 @@
+docker build . --build-arg SERVICE_NAME=spring-petclinic-admin-server --build-arg PORT=9090 -t spring-petclinic-admin-server:3.0.9
+docker build . --build-arg SERVICE_NAME=spring-petclinic-api-gateway --build-arg PORT=8080 -t spring-petclinic-api-gateway:3.0.9
+docker build . --build-arg SERVICE_NAME=spring-petclinic-config-server --build-arg PORT=8888 -t spring-petclinic-config-server:3.0.9
+docker build . --build-arg SERVICE_NAME=spring-petclinic-customers-service --build-arg PORT=8081 -t spring-petclinic-customers-service:3.0.9
+docker build . --build-arg SERVICE_NAME=spring-petclinic-discovery-server --build-arg PORT=8761 -t spring-petclinic-discovery-server:3.0.9
+docker build . --build-arg SERVICE_NAME=spring-petclinic-vets-service --build-arg PORT=8083 -t spring-petclinic-vets-service:3.0.9
+docker build . --build-arg SERVICE_NAME=spring-petclinic-visits-service --build-arg PORT=8082 -t spring-petclinic-visits-service:3.0.9
+
+
+# docker run -d -p 8888:8888 -e PORT=8888 --name config_server spring-petclinic-config-server:3.0.9
+# docker run -d -p 8761:8761 -e PORT=8761 --name discovery_server spring-petclinic-discovery-server:3.0.9
+# docker run -d -p 8081:8081 -e PORT=8081 --name customers_service spring-petclinic-customers-service:3.0.9
+# docker run -d -p 8082:8082 -e PORT=8082 --name visits_service spring-petclinic-visits-service:3.0.9
+# docker run -d -p 8083:8083 -e PORT=8083 --name vets_service spring-petclinic-vets-service:3.0.9
+# docker run -d -p 8080:8080 -e PORT=8080 --name api_gateway spring-petclinic-api-gateway:3.0.9
+# docker run -d -p 9090:9090 -e PORT=9090 --name admin_server spring-petclinic-admin-server:3.0.9
+
+
+
+docker run -d -p 8888:8888 -p 8761:8761 -p 8081:8081 -p 8082:8082 -p 8083:8083 -p 8080:8080 -p 9090:9090 -e PORT=8888 --name config_server spring-petclinic-config-server:3.0.9
+sleep 5
+docker run -d -e PORT=8761 --name discovery_server --net container:config_server spring-petclinic-discovery-server:3.0.9
+sleep 5
+docker run -d -e PORT=8081 --name customers_service --net container:config_server spring-petclinic-customers-service:3.0.9
+docker run -d -e PORT=8082 --name visits_service --net container:config_server spring-petclinic-visits-service:3.0.9
+docker run -d -e PORT=8083 --name vets_service --net container:config_server spring-petclinic-vets-service:3.0.9
+docker run -d -e PORT=8080 --name api_gateway --net container:config_server spring-petclinic-api-gateway:3.0.9
+docker run -d -e PORT=9090 --name admin_server --net container:config_server spring-petclinic-admin-server:3.0.9
