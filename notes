@@ -18,9 +18,9 @@ docker build . --build-arg SERVICE_NAME=spring-petclinic-visits-service --build-
 
 
 docker run -d -p 8888:8888 -p 8761:8761 -p 8081:8081 -p 8082:8082 -p 8083:8083 -p 8080:8080 -p 9090:9090 -e PORT=8888 --name config_server spring-petclinic-config-server:3.0.9
-sleep 5
+sleep 15
 docker run -d -e PORT=8761 --name discovery_server --net container:config_server spring-petclinic-discovery-server:3.0.9
-sleep 5
+sleep 15
 docker run -d -e PORT=8081 --name customers_service --net container:config_server spring-petclinic-customers-service:3.0.9
 docker run -d -e PORT=8082 --name visits_service --net container:config_server spring-petclinic-visits-service:3.0.9
 docker run -d -e PORT=8083 --name vets_service --net container:config_server spring-petclinic-vets-service:3.0.9
